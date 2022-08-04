@@ -1,0 +1,27 @@
+- hosts: all
+  become: true
+  become_user: root
+  become_method: su
+
+  tasks:
+  - name: disable firewalld
+    ansible.builtin.systemd:
+      name: firewalld
+      enabled: false
+      state: stopped
+
+  - name: tell selinux to allow Apache to access http://localhost
+    ansible.builtin.command:
+      cmd: /usr/sbin/setsebool -P httpd_can_network_connect 1
+
+  - name: add perfSONAR repo with 5.0 packages
+    ansible.builtin.yum:
+      name: http://linux.mirrors.es.net/perfsonar/el7/x86_64/latest/packages/perfSONAR-repo-staging-0.10-1.noarch.rpm
+      state: present
+
+  - name: install perfsonar-archive and perfsonar-dashboards
+    ansible.builtin.yum:
+      name:
+      - perfsonar-archive
+      - perfsonar-dashboards
+      state: latest
