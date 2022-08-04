@@ -46,3 +46,5 @@ where `archive.json` contains
 ```
 
 where `Basic asdf` is the value found in `/etc/perfsonar/logstash/proxy_auth.json` on the archive server after deployment. If successful, you will see a new entry at `1.1.1.1/opensearchdash/app/discover`.
+
+For this setup to be secure, TLS must be set up within the Apache reverse proxy that is on `1.1.1.1`.
